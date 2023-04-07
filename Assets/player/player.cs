@@ -29,7 +29,7 @@ public class player : MonoBehaviour
 		sideMove = Input.GetAxis("Horizontal");
 		downMove = Input.GetAxis("Vertical");
 		
-		jump = Input.GetButtonDown("Jump");
+		jump = Input.GetButton("Jump");
 		
 	}
     void FixedUpdate()

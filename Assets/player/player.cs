@@ -7,6 +7,9 @@ public class player : MonoBehaviour
 	public float Speed = 5f;
 	public float JumpForce = 5f;
 	
+	public int Health = 100;
+	
+	
 	[HideInInspector]
 	public Rigidbody2D rb;
 	

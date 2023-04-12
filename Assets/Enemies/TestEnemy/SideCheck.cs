@@ -7,7 +7,7 @@ public class SideCheck : MonoBehaviour
 	private TestEnemy enemy;
 	
 	void Start(){
-		enemy = (TestEnemy)transform.parent.GetComponent(typeof(TestEnemy));
+		enemy = transform.parent.GetComponent<TestEnemy>();
 	}
 	
     void OnTriggerExit2D() {

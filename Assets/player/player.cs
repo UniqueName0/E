@@ -8,8 +8,9 @@ public class player : MonoBehaviour
 	public float JumpForce = 5f;
 	
 	public int Health = 100;
-	
-	
+
+	[HideInInspector]
+	public bool KnockedBack = false;
 	[HideInInspector]
 	public Rigidbody2D rb;
 	
@@ -35,14 +36,26 @@ public class player : MonoBehaviour
 		jump = Input.GetButton("Jump");
 		
 	}
+
     void FixedUpdate()
     {
         
-        rb.velocity = new Vector2(sideMove * Speed, rb.velocity.y);
+        if (!KnockedBack) rb.velocity = new Vector2(sideMove * Speed, rb.velocity.y);
         
         if (jump && Grounded) {
 			rb.velocity = new Vector2(rb.velocity.x, 0);
 			rb.velocity += Vector2.up * JumpForce;
 		}
+	if (KnockedBack && Grounded) KnockedBack = false;
+    }
+
+    public void TakeDamage() {
+        //activate iframes
+    }
+
+    public void Knockback(Vector2 KnockbackForce) {
+	KnockedBack = true;
+	rb.velocity = new Vector2(0, 0);
+        rb.AddForce(KnockbackForce, ForceMode2D.Impulse);
     }
 }

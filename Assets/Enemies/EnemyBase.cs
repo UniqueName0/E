@@ -9,6 +9,6 @@ public abstract class EnemyBase : MonoBehaviour
 	public int Speed;
 	
     public abstract void TakeDamage();
-    public abstract void DoDamage(player TargetPlayer);
-    public abstract void Knockback(int KnockbackAmount);
+    public abstract void DoDamage(Collider2D TargetPlayer);
+    public abstract void Knockback(int KnockbackForce);
 }

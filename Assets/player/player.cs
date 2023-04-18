@@ -6,11 +6,16 @@ public class player : MonoBehaviour
 {
 	public float Speed = 5f;
 	public float JumpForce = 5f;
+	public float DashForce = 2f;
+
+
+	[HideInInspector]
+	public float DashTime = 0f;
 	
 	public int Health = 100;
 
 	[HideInInspector]
-	public bool KnockedBack = false;
+	public bool DisableInput = false;
 	[HideInInspector]
 	public Rigidbody2D rb;
 	
@@ -19,6 +24,10 @@ public class player : MonoBehaviour
 	
 	[HideInInspector]
 	public bool jump;
+	[HideInInspector]
+	public bool dash;
+	[HideInInspector]
+	public float AddedDashForce = 1f;
 	[HideInInspector]
 	public float sideMove;
 	[HideInInspector]
@@ -32,10 +41,21 @@ public class player : MonoBehaviour
     }
 
 	void Update(){
-		if (!KnockedBack) {
+		
+		if (!DisableInput) {
 			sideMove = Input.GetAxis("Horizontal");
 			downMove = Input.GetAxis("Vertical");
+			
+			if (Input.GetButton("Dash") && DashTime <= 0){
+				AddedDashForce = DashForce;
+				DashTime = 1.2f;
+			}
 		}
+		if (DashTime > 0f) DashTime -= Time.deltaTime;
+		if (DashTime < 1f) {
+			AddedDashForce = 1f;
+			DisableInput = false;
+		} else sideMove = Mathf.Sin(sideMove);
 	
 		jump = Input.GetButton("Jump");
 		
@@ -47,8 +67,10 @@ public class player : MonoBehaviour
 			FrameStall--;
 			return;
 		}
-        if (!KnockedBack) rb.velocity = new Vector2(sideMove * Speed, rb.velocity.y);
-        else if (Grounded) KnockedBack = false;
+        if (!DisableInput) {
+			rb.velocity = new Vector2(sideMove * Speed * AddedDashForce, rb.velocity.y);
+		}
+        else if (Grounded) DisableInput = false;
 
         if (jump && Grounded) rb.velocity = new Vector2(rb.velocity.x, JumpForce);
     }
@@ -60,6 +82,6 @@ public class player : MonoBehaviour
     public void Knockback(Vector2 KnockbackForce) {
 		rb.velocity = KnockbackForce;
 		FrameStall = 10;
-		KnockedBack = true;
+		DisableInput = true;
 	}
 }

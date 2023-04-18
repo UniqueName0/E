@@ -23,6 +23,8 @@ public class player : MonoBehaviour
 	public float sideMove;
 	[HideInInspector]
 	public float downMove;
+	[HideInInspector]
+	public float FrameStall = 0;
 	
     void Start()
     {
@@ -30,23 +32,25 @@ public class player : MonoBehaviour
     }
 
 	void Update(){
-		sideMove = Input.GetAxis("Horizontal");
-		downMove = Input.GetAxis("Vertical");
-		
+		if (!KnockedBack) {
+			sideMove = Input.GetAxis("Horizontal");
+			downMove = Input.GetAxis("Vertical");
+		}
+	
 		jump = Input.GetButton("Jump");
 		
 	}
 
     void FixedUpdate()
     {
-        
-        if (!KnockedBack) rb.velocity = new Vector2(sideMove * Speed, rb.velocity.y);
-        
-        if (jump && Grounded) {
-			rb.velocity = new Vector2(rb.velocity.x, 0);
-			rb.velocity += Vector2.up * JumpForce;
+        if (FrameStall > 0) {
+			FrameStall--;
+			return;
 		}
-	if (KnockedBack && Grounded) KnockedBack = false;
+        if (!KnockedBack) rb.velocity = new Vector2(sideMove * Speed, rb.velocity.y);
+        else if (Grounded) KnockedBack = false;
+
+        if (jump && Grounded) rb.velocity = new Vector2(rb.velocity.x, JumpForce);
     }
 
     public void TakeDamage() {
@@ -54,8 +58,8 @@ public class player : MonoBehaviour
     }
 
     public void Knockback(Vector2 KnockbackForce) {
-	KnockedBack = true;
-	rb.velocity = new Vector2(0, 0);
-        rb.AddForce(KnockbackForce, ForceMode2D.Impulse);
-    }
+		rb.velocity = KnockbackForce;
+		FrameStall = 10;
+		KnockedBack = true;
+	}
 }

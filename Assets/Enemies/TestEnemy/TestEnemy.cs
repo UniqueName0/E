@@ -21,7 +21,7 @@ public class TestEnemy : EnemyBase
     public override void DoDamage(Collider2D playerCollider) {
 	player TargetPlayer = playerCollider.GetComponent<player>();        
 	TargetPlayer.Health -= this.Damage;
-        TargetPlayer.TakeDamage();
+    TargetPlayer.TakeDamage();
 	int KnockbackForce = 5;
 	if (playerCollider.transform.position.x < transform.position.x) KnockbackForce *= -1;
 	TargetPlayer.Knockback(new Vector2(KnockbackForce, 5));

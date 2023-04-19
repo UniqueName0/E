@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     public WeaponBase CurrentWeapon;
+    public string WeaponPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -15,9 +16,7 @@ public class WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("ChangeWeapon")) {
-            ChangeWeapon();
-        }
+        if (Input.GetButton("ChangeWeapon")) ChangeWeapon();
     }
 
     void ChangeWeapon() 

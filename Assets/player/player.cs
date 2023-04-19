@@ -6,7 +6,7 @@ public class player : MonoBehaviour
 {
 	public float Speed = 5f;
 	public float JumpForce = 5f;
-	public float DashForce = 2f;
+	public float DashForce = 20f;
 
 
 	[HideInInspector]
@@ -51,6 +51,7 @@ public class player : MonoBehaviour
 		
 		if (Input.GetButton("Dash") && DashTime <= 0){
 			AddedDashForce = DashForce;
+			AddedDashForce *= Mathf.Sign(sideMove);
 			DashTime = 1.2f;
 		}
 	
@@ -58,7 +59,7 @@ public class player : MonoBehaviour
 		if (DashTime < 1f) {
 			AddedDashForce = 1f;
 			DisableInput = false;
-		} else sideMove = Mathf.Sin(sideMove);
+		} else sideMove = 1f;
 		
 		jump = Input.GetButton("Jump");
 		

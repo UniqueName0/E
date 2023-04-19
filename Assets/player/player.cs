@@ -42,21 +42,24 @@ public class player : MonoBehaviour
 
 	void Update(){
 		
-		if (!DisableInput) {
-			sideMove = Input.GetAxis("Horizontal");
-			downMove = Input.GetAxis("Vertical");
-			
-			if (Input.GetButton("Dash") && DashTime <= 0){
-				AddedDashForce = DashForce;
-				DashTime = 1.2f;
-			}
+		if (DisableInput) {
+			return;
 		}
+
+		sideMove = Input.GetAxis("Horizontal");
+		downMove = Input.GetAxis("Vertical");
+		
+		if (Input.GetButton("Dash") && DashTime <= 0){
+			AddedDashForce = DashForce;
+			DashTime = 1.2f;
+		}
+	
 		if (DashTime > 0f) DashTime -= Time.deltaTime;
 		if (DashTime < 1f) {
 			AddedDashForce = 1f;
 			DisableInput = false;
 		} else sideMove = Mathf.Sin(sideMove);
-	
+		
 		jump = Input.GetButton("Jump");
 		
 	}
@@ -82,6 +85,7 @@ public class player : MonoBehaviour
     public void Knockback(Vector2 KnockbackForce) {
 		rb.velocity = KnockbackForce;
 		FrameStall = 10;
+		DashTime = 0f;
 		DisableInput = true;
 	}
 }

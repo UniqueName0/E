@@ -21,7 +21,7 @@ public class player : MonoBehaviour
 	
 	public ContactFilter2D GroundFilter;
 	public bool Grounded => rb.IsTouching(GroundFilter);
-	
+
 	[HideInInspector]
 	public bool jump;
 	[HideInInspector]
@@ -34,13 +34,16 @@ public class player : MonoBehaviour
 	public float downMove;
 	[HideInInspector]
 	public float FrameStall = 0;
-	
-    void Start()
+	[HideInInspector]
+	public float IFrames = 0;
+
+	void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
 	void Update(){
+		if (IFrames > 0) IFrames--;
 		
 		if (DisableInput) {
 			return;
@@ -79,9 +82,7 @@ public class player : MonoBehaviour
         if (jump && Grounded) rb.velocity = new Vector2(rb.velocity.x, JumpForce);
     }
 
-    public void TakeDamage() {
-        //activate iframes
-    }
+    public void TakeDamage() => IFrames = 20;
 
     public void Knockback(Vector2 KnockbackForce) {
 		rb.velocity = KnockbackForce;

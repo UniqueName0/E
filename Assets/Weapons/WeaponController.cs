@@ -5,12 +5,11 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     public WeaponBase CurrentWeapon;
-    public string WeaponPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.CurrentWeapon = this.transform.parent.GetComponent<WeaponBase>();
     }
 
     // Update is called once per frame

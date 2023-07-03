@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Button text="Start" display-tooltip-when-elided="true" enable-rich-text="true" name="startButton" style="width: 15%; left: auto; top: auto; position: relative; align-items: center; justify-content: center; margin-left: auto; margin-right: auto; margin-top: auto; margin-bottom: auto;" />
+</ui:UXML>

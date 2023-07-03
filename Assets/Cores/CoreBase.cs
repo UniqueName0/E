@@ -11,6 +11,6 @@ public class CoreBase : MonoBehaviour
     public virtual void StartAction(player PlayerInstance) { }
 
     public virtual void TakeDamageAction(player PlayerInstance) { }
-    public virtual void AttackAction(WeaponBase WeaponInstance, player PlayerInstance)
+    public virtual void AttackAction(WeaponBase WeaponInstance, player PlayerInstance) { }
 
 }

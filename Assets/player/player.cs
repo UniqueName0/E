@@ -11,14 +11,14 @@ public class player : MonoBehaviour
 
 	[HideInInspector]
 	public float DashTime = 0f;
-	
+
 	public int Health = 100;
 
 	[HideInInspector]
 	public bool DisableInput = false;
 	[HideInInspector]
 	public Rigidbody2D rb;
-	
+
 	public ContactFilter2D GroundFilter;
 	public bool Grounded => rb.IsTouching(GroundFilter);
 
@@ -37,10 +37,16 @@ public class player : MonoBehaviour
 	[HideInInspector]
 	public float IFrames = 0;
 
+
+	[HideInInspector]
+	public List<CoreBase> Cores = new List<CoreBase>();
+
 	void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
+
+		Cores.ForEach(i => i.StartAction(this));
+	}
 
 	void Update(){
 		if (IFrames > 0) IFrames--;
@@ -79,10 +85,17 @@ public class player : MonoBehaviour
 		}
         else if (Grounded) DisableInput = false;
 
-        if (jump && Grounded) rb.velocity = new Vector2(rb.velocity.x, JumpForce);
+		if (jump && Grounded) { 
+			rb.velocity = new Vector2(rb.velocity.x, JumpForce); 
+			Cores.ForEach(i => i.JumpAction(this));
+		}
     }
 
-    public void TakeDamage() => IFrames = 20;
+	public void TakeDamage()
+	{
+		this.IFrames = 20;
+		Cores.ForEach(i => i.TakeDamageAction(this));
+	}
 
     public void Knockback(Vector2 KnockbackForce) {
 		rb.velocity = KnockbackForce;
